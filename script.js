@@ -54,14 +54,19 @@ countdownForm.addEventListener('submit', (event) => {
    countdownTitle = event.srcElement[0].value
    countdownDate = event.srcElement[1].value
    console.log(countdownTitle, countdownDate)
-   // Get number version of current Date, update DOM
-   countdownValue = new Date(countdownDate).getTime()
-   console.log(countdownValue)
-   updateDOM()
+   // Check for valid date
+   if (countdownDate === '') {
+      alert('Please select a date for the countdown')
+   } else {
+      // Get number version of current Date, update DOM
+      countdownValue = new Date(countdownDate).getTime()
+      console.log(countdownValue)
+      updateDOM()
+   }
 })
 
 countdownElementBtn.addEventListener('click', () => {
-      // Hide Countdowns, show Input
+   // Hide Countdowns, show Input
    countdownElement.hidden = true
    inputContainer.hidden = false
    // Stop the countdown
