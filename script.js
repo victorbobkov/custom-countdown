@@ -13,6 +13,7 @@ dateElement.setAttribute('min', today)
 let countdownTitle = ''
 let countdownDate = ''
 let countdownValue = Date
+let countdownActive
 
 const second = 1000 // 1sec = 1000ms
 const minute = second * 60
@@ -21,27 +22,29 @@ const day = hour * 24
 
 // Populate Countdown / Complete UI
 const updateDOM = () => {
-   const now = new Date().getTime()
-   const distance = countdownValue - now
-   console.log('distance', distance)
+   countdownActive = setInterval(() => {
+      const now = new Date().getTime()
+      const distance = countdownValue - now
+      console.log('distance', distance)
 
-   const days = Math.floor(distance / day)
-   const hours = Math.floor((distance % day) / hour)
-   const minutes = Math.floor((distance % hour) / minute)
-   const seconds = Math.floor((distance % minute) / second)
-   console.log(days, hours, minutes, seconds)
+      const days = Math.floor(distance / day)
+      const hours = Math.floor((distance % day) / hour)
+      const minutes = Math.floor((distance % hour) / minute)
+      const seconds = Math.floor((distance % minute) / second)
+      console.log(days, hours, minutes, seconds)
 
-   // Populate Countdown
-   countdownElementTitle.textContent = `${countdownTitle}`
-   timeElements[0].textContent = `${days}`
-   timeElements[1].textContent = `${hours}`
-   timeElements[2].textContent = `${minutes}`
-   timeElements[3].textContent = `${seconds}`
+      // Populate Countdown
+      countdownElementTitle.textContent = `${countdownTitle}`
+      timeElements[0].textContent = `${days}`
+      timeElements[1].textContent = `${hours}`
+      timeElements[2].textContent = `${minutes}`
+      timeElements[3].textContent = `${seconds}`
 
-   // Hide Input
-   inputContainer.hidden = true
-   // Show Countdown
-   countdownElement.hidden = false
+      // Hide Input
+      inputContainer.hidden = true
+      // Show Countdown
+      countdownElement.hidden = false
+   }, second)
 }
 
 // Event Listeners
@@ -55,4 +58,15 @@ countdownForm.addEventListener('submit', (event) => {
    countdownValue = new Date(countdownDate).getTime()
    console.log(countdownValue)
    updateDOM()
+})
+
+countdownElementBtn.addEventListener('click', () => {
+      // Hide Countdowns, show Input
+   countdownElement.hidden = true
+   inputContainer.hidden = false
+   // Stop the countdown
+   clearInterval(countdownActive)
+   // Reset values
+   countdownTitle = ''
+   countdownDate = ''
 })
